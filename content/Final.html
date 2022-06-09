@@ -128,7 +128,7 @@ img.add_border {
                             <li><a href="./../blog/index.html">blog</a></li>
                         </ul>
                       </li>
-                     <li class='has-children'><a href='About.html'>About</a><ul class='dropdown'><li><a href='run.html'>run</a></li></ul><li><a href='w13.html'>w13</a><li><a href='midterm.html'>midterm</a><li class='has-children'><a href='w14.html'>w14</a><ul class='dropdown'><li><a href='1a分組名單.html'>1a分組名單</a></li></ul><li><a href='Tetris 線上遊戲專案報告.html'>Tetris 線上遊戲專案報告</a><li><a href='Tetris 線上遊戲加入計分系統.html'>Tetris 線上遊戲加入計分系統</a></li>
+                     <li class='has-children'><a href='About.html'>About</a><ul class='dropdown'><li><a href='run.html'>run</a></li></ul><li><a href='w13.html'>w13</a><li><a href='midterm.html'>midterm</a><li class='has-children'><a href='w14.html'>w14</a><ul class='dropdown'><li><a href='1a分組名單.html'>1a分組名單</a></li></ul><li><a href='Tetris線上遊戲報告.html'>Tetris線上遊戲報告</a><li><a href='Tetris 加入計分系統.html'>Tetris 加入計分系統</a><li><a href='Final.html'>Final</a></li>
                       </ul>
                 </nav>
               </div>
@@ -139,98 +139,22 @@ img.add_border {
           </div>
           
         </header>
-    <div id="tipue_search_content">Tetris 線上遊戲專案報告 << <a href='Tetris 線上遊戲專案報告.html'>Previous</a> <br /><h1>Tetris 線上遊戲加入計分系統</h1>
-<div></div>
-<!-- 導入 brython 程式庫 -->
-<p>
-<script src="./../cmsimde/static/brython.js">
-</script>
-<script src="./../cmsimde/static/brython_stdlib.js"></script>
-</p>
-<!-- 啟動 Brython -->
-<p>
-<script>
-window.onload=function(){
-brython({debug:1, pythonpath:['./../cmsimde/static/','./../downloads/py/']});
-}
-</script>
-</p>
-<p><!-- 導入 FileSaver 與 filereader --></p>
-<p>
-<script src="./../cmsimde/static/ace/FileSaver.min.js" type="text/javascript"></script>
-<script src="./../cmsimde/static/ace/filereader.js" type="text/javascript"></script>
-</p>
-<p><!-- 導入 ace --></p>
-<p>
-<script src="./../cmsimde/static/ace/ace.js" type="text/javascript"></script>
-<script src="./../cmsimde/static/ace/ext-language_tools.js" type="text/javascript"></script>
-<script src="./../cmsimde/static/ace/mode-python3.js" type="text/javascript"></script>
-<script src="./../cmsimde/static/ace/snippets/python.js" type="text/javascript"></script>
-</p>
-<p><!-- 請注意, 這裡使用 Javascript 將 localStorage["py_src"] 中存在近端瀏覽器的程式碼, 由使用者決定存檔名稱--></p>
-<p>
-<script type="text/javascript">
-function doSave(storage_id, filename){
-    var blob = new Blob([localStorage[storage_id]], {type: "text/plain;charset=utf-8"});
-    filename = document.getElementById(filename).value
-    saveAs(blob, filename+".py");
-}
-</script>
-</p>
-<p><!-- 印出版次與關鍵字程式 --></p>
-<p>
-<script type="text/python3">
-from browser import document as doc
-import ace
-# 清除畫布
-def clear_bd(ev):
-    bd = doc["brython_div"]
-    bd.clear()
-# Brython 3.3.4 內建的 container 名稱為  'container' 且 turtle 輸出為 svg 必須使用 div 訂定 id
-Ace = ace.Editor(editor_id="kw_editor", console_id="kw_console", container_id="kw__container", storage_id="kw_py_src" )
-# 從 gist 取出程式碼後, 放入 editor 作為 default 程式
-def run():
-    # 利用 get 取下 src 變數值
-    try:
-        url = doc.query["src"]
-    except:
-        url = "https://gist.githubusercontent.com/41023120-1/c84cbbef293b1689abef3bfb9c050190/raw/9d61cfdaead2fdfef0ca4c40fc9bbc35e7115700/Tetris%2520%25E7%25B7%259A%25E4%25B8%258A%25E9%2581%258A%25E6%2588%25B2%25E5%25B0%2588%25E6%25A1%2588%25E5%258A%25A0%25E8%25A8%2588%25E5%2588%2586%25E7%25B3%25BB%25E7%25B5%25B1%25E5%25A0%25B1%25E5%2591%258A"
-    prog = open(url).read()
-
-    # 將程式載入編輯區
-    Ace.editor.setValue(prog)
-    Ace.editor.scrollToRow(0)
-    Ace.editor.gotoLine(0)
-    # 直接執行程式
-    #ns = {'__name__':'__main__'}
-    #exec(prog, ns)
-    # 按下 run 按鈕
-    Ace.run()
-
-# 執行程式, 顯示輸出結果與清除輸出結果及對應按鈕綁定
-doc['kw_run'].bind('click', Ace.run)
-doc['kw_show_console'].bind('click', Ace.show_console)
-doc['kw_clear_console'].bind('click', Ace.clear_console)
-doc['clear_bd'].bind('click', clear_bd)
-# 呼叫函式執行
-run()
-</script>
-</p>
-<p><!-- 用來顯示程式碼的 editor 區域 --></p>
-<div id="kw_editor" style="width: 600px; height: 300px;"></div>
-<p><!-- 以下的表單與按鈕與前面的 Javascript doSave 函式以及 FileSaver.min.js 互相配合 --></p>
-<!-- 存擋表單開始 --><form><label>Filename: <input id="kw_filename" placeholder="input file name" type="text"/>.py</label> <input onclick="doSave('kw_py_src', 'kw_filename');" type="submit" value="Save"/></form><!-- 存擋表單結束 -->
-<p></p>
-<!-- 執行與清除按鈕開始 -->
-<p><button id="kw_run">Run</button> <button id="kw_show_console">Output</button> <button id="kw_clear_console">清除輸出區</button><button id="clear_bd">清除繪圖區</button><button onclick="window.location.reload()">Reload</button></p>
-<!-- 執行與清除按鈕結束 -->
-<p></p>
-<!-- 程式執行 ouput 區 -->
-<div style="width: 100%; height: 100%;"><textarea autocomplete="off" id="kw_console"></textarea></div>
-<!-- Brython 程式執行的結果, 都以 brython_div 作為切入位置 -->
-<div id="brython_div"></div>
-<div></div>
-<div></div></div></div><br />Tetris 線上遊戲專案報告 << <a href='Tetris 線上遊戲專案報告.html'>Previous</a> </div>
+    <div id="tipue_search_content">Tetris 加入計分系統 << <a href='Tetris 加入計分系統.html'>Previous</a> <br /><h1>Final</h1>
+<p><br/>第1週<br/>創建倉儲<br/>說明如何利用 bat 執行設定 IPv6 網路連線</p>
+<p>第2週<br/>解釋python程序是如何執行的</p>
+<p>第3週<br/>解釋用 putty wink 視頻添加 ssh <br/>準備創建 Python 3.10.2 和 tcc 可攜帶的環境<br/>加入 1a 上課的兩個教學影片, 分別摘要前兩週的內容, 並說明如何自製可攜系統</p>
+<p>第4週<br/>在 gist 加入能讀取網際檔案的範例程式<br/>加入 Brython 程式環境</p>
+<p>第5週<br/>全校運動會</p>
+<p>第6週<br/>清明節放假</p>
+<p>第7週<br/>建立 Wink 教學影片<br/>建立 wcm2022<br/>配置 Brython 環境<br/>設定 Pelican 網誌<br/>Blogger 網誌同步<br/>計算機概論<br/>電腦硬體拆解<br/>建立 Virtualbox 虛擬主機<br/>安裝配置 nginx<br/>Windows 10 虛擬主機</p>
+<p>第8週<br/>加入各學員倉儲與網頁連結<br/>添加數字線程頁面<br/>加入 w8 虛擬主機 Wink 專案檔<br/>整理課程主題, 並提出下半學期的課程教學要點</p>
+<p>第9週<br/>為了方便性, 當期的課程網站, 仍採 Github Pages 伺服靜態網站. 使用的方法很簡單,<br/>只要建立 public Github 倉儲, 然後透過倉儲的 settings, 啟動倉儲的 Github Pages 功能,<br/>並指定從倉儲 main 分支中的 index.html 導引靜態網頁內容即可.</p>
+<p>第10週<br/>加入電腦輔助設計室個人虛擬主機 IP 設定</p>
+<p>第11週<br/>寫 Pelican 網誌</p>
+<p>第12週<br/>學校 IPv6 網路不通</p>
+<p>第13週<br/>說明如何在個人動態與靜態網頁中配置 Brython 程式環境, 並啟動執行線上程式)<br/>說明下列 Brython 程式各行功能</p>
+<p>第14週<br/>將程式存入 Gist, 從舊資料中刪除沒有在註冊名單中的內容<br/>開始做俄羅斯方塊</p>
+<p>第15週<br/>端午節放假</p></div><br />Tetris 加入計分系統 << <a href='Tetris 加入計分系統.html'>Previous</a> </div>
         
     <!-- footer -->
       <div class="container">
