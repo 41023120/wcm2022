@@ -468,7 +468,8 @@ run()
 <p>def key_down(eve):<br/> key = eve.keyCode<br/> #if event.type == pygame.QUIT:<br/> # 32 is pause<br/> if key == 32:<br/> done = True<br/> # 82 is R鍵 to rotate<br/> if key == 82:<br/> game.rotate()<br/> # 40 is down key<br/> if key == 40:<br/> pressing_down = True<br/> # 37 is left key<br/> if key == 37:<br/> game.go_side(-1)<br/> # 39 is right key<br/> if key == 39:<br/> game.go_side(1)<br/> # 68 is d key to move block to bottom<br/> if key == 68:<br/> game.go_space()<br/> # 27 is escape<br/> # reset the game<br/> if key == 27:<br/> game.__init__(20, 10)</p>
 <p>def key_up(eve):<br/> key = eve.keyCode<br/> # 40 is down key<br/> if key == 40:<br/> pressing_down = False</p>
 <p>#如果還沒結束<br/>def do_game():<br/> global counter<br/> if game.figure is None: #如果遊戲值為空新增一些方塊<br/> game.new_figure()<br/> counter += 1 <br/> if counter &gt; 100000:<br/> counter = 0<br/> if counter % (fps // game.level // 2) == 0 or pressing_down: #隨著等級越來越高難度也越來越大<br/> if game.state == "start":<br/> game.go_down()<br/> #把格子畫在窗口裡面一行一行的畫<br/> for i in range(game.height):<br/> for j in range(game.width):<br/> ctx.fillStyle = WHITE<br/> #ctx.scale(game.zoom, game.zoom)<br/> ctx.fillRect(game.x + game.zoom * j, game.y + game.zoom * i, game.zoom, game.zoom)<br/> if game.field[i][j] &gt; 0:<br/> ctx.fillStyle = '#%02x%02x%02x' % colors[game.field[i][j]]<br/> ctx.fillRect(game.x + game.zoom * j + 1, game.y + game.zoom * i + 1, game.zoom - 2, game.zoom - 1)<br/> ctx.lineWidth = 1<br/> ctx.strokeStyle = GRAY<br/> ctx.beginPath()<br/> ctx.rect(game.x + game.zoom * j, game.y + game.zoom * i, game.zoom, game.zoom)<br/> ctx.stroke()<br/> if game.figure is not None: #如果格子裡面不為0的時候把它畫出來<br/> for i in range(4):<br/> for j in range(4):<br/> p = i * 4 + j<br/> if p in game.figure.image():<br/> ctx.fillStyle = '#%02x%02x%02x' % colors[game.figure.color]<br/> ctx.fillRect(game.x + game.zoom * (j + game.figure.x) + 1,<br/> game.y + game.zoom * (i + game.figure.y) + 1,<br/> game.zoom - 2, game.zoom - 2)<br/>score_doc = html.DIV("score") #字體<br/>score_doc.id = "score" #顯示分數<br/>brython_div &lt;= score_doc</p>
-<p>score = 0<br/>doc.addEventListener("keydown", key_down)<br/>doc.addEventListener("keyup", key_up)<br/>browser.timer.set_interval(do_game, fps)</p><h1>Tetris線上遊戲報告</h1>
+<p>score = 0<br/>doc.addEventListener("keydown", key_down)<br/>doc.addEventListener("keyup", key_up)<br/>browser.timer.set_interval(do_game, fps)</p>
+<h1>Tetris線上遊戲報告</h1>
 <!-- 導入 brython 程式庫 -->
 <p>
 <script src="/static/brython.js">
@@ -666,5 +667,94 @@ run()
 <p>第14週<br/>將程式存入 Gist, 從舊資料中刪除沒有在註冊名單中的內容<br/>開始做俄羅斯方塊</p>
 <p>第15週<br/>端午節放假<br/>俄羅斯方塊及加入計分系統</p>
 <p>第16週<br/>期末報告整理</p>
-</div>
-</div>
+<h1>期末任務1</h1>
+<!-- 導入 brython 程式庫 -->
+<p>
+<script src="/static/brython.js">
+</script>
+<script src="/static/brython_stdlib.js"></script>
+</p>
+<!-- 啟動 Brython -->
+<p>
+<script>
+window.onload=function(){
+brython({debug:1, pythonpath:['/static/','./../downloads/py/']});
+}
+</script>
+</p>
+<p><!-- 導入 FileSaver 與 filereader --></p>
+<p>
+<script src="/static/ace/FileSaver.min.js" type="text/javascript"></script>
+<script src="/static/ace/filereader.js" type="text/javascript"></script>
+</p>
+<p><!-- 導入 ace --></p>
+<p>
+<script src="/static/ace/ace.js" type="text/javascript"></script>
+<script src="/static/ace/ext-language_tools.js" type="text/javascript"></script>
+<script src="/static/ace/mode-python3.js" type="text/javascript"></script>
+<script src="/static/ace/snippets/python.js" type="text/javascript"></script>
+</p>
+<p><!-- 請注意, 這裡使用 Javascript 將 localStorage["py_src"] 中存在近端瀏覽器的程式碼, 由使用者決定存檔名稱--></p>
+<p>
+<script type="text/javascript">
+function doSave(storage_id, filename){
+    var blob = new Blob([localStorage[storage_id]], {type: "text/plain;charset=utf-8"});
+    filename = document.getElementById(filename).value
+    saveAs(blob, filename+".py");
+}
+</script>
+</p>
+<p><!-- 印出版次與關鍵字程式 --></p>
+<p>
+<script type="text/python3">
+from browser import document as doc
+import ace
+# 清除畫布
+def clear_bd(ev):
+    bd = doc["brython_div"]
+    bd.clear()
+# Brython 3.3.4 內建的 container 名稱為  'container' 且 turtle 輸出為 svg 必須使用 div 訂定 id
+Ace = ace.Editor(editor_id="kw_editor", console_id="kw_console", container_id="kw__container", storage_id="kw_py_src" )
+# 從 gist 取出程式碼後, 放入 editor 作為 default 程式
+def run():
+    # 利用 get 取下 src 變數值
+    try:
+        url = doc.query["src"]
+    except:
+        url = "https://gist.githubusercontent.com/41023120-1/ac501f070a80583e540b19cce79d34da/raw/2e7f45307b0871678f738e932c29e61f9d90019c/Tetris%2520%25E5%25BE%2580%25E4%25B8%258A%25E9%2582%258A%25E7%2595%258C%25E7%25A2%25B0%25E5%2588%25B0%25E4%25B8%258D%25E6%259C%2583%25E5%2581%259C"
+    prog = open(url).read()
+
+    # 將程式載入編輯區
+    Ace.editor.setValue(prog)
+    Ace.editor.scrollToRow(0)
+    Ace.editor.gotoLine(0)
+    # 直接執行程式
+    #ns = {'__name__':'__main__'}
+    #exec(prog, ns)
+    # 按下 run 按鈕
+    Ace.run()
+
+# 執行程式, 顯示輸出結果與清除輸出結果及對應按鈕綁定
+doc['kw_run'].bind('click', Ace.run)
+doc['kw_show_console'].bind('click', Ace.show_console)
+doc['kw_clear_console'].bind('click', Ace.clear_console)
+doc['clear_bd'].bind('click', clear_bd)
+# 呼叫函式執行
+run()
+</script>
+</p>
+<p><!-- 用來顯示程式碼的 editor 區域 --></p>
+<div id="kw_editor" style="width: 600px; height: 300px;"></div>
+<p><!-- 以下的表單與按鈕與前面的 Javascript doSave 函式以及 FileSaver.min.js 互相配合 --></p>
+<!-- 存擋表單開始 --><form><label>Filename: <input id="kw_filename" placeholder="input file name" type="text"/>.py</label> <input onclick="doSave('kw_py_src', 'kw_filename');" type="submit" value="Save"/></form><!-- 存擋表單結束 -->
+<p></p>
+<!-- 執行與清除按鈕開始 -->
+<p><button id="kw_run">Run</button> <button id="kw_show_console">Output</button> <button id="kw_clear_console">清除輸出區</button><button id="clear_bd">清除繪圖區</button><button onclick="window.location.reload()">Reload</button></p>
+<!-- 執行與清除按鈕結束 -->
+<p></p>
+<!-- 程式執行 ouput 區 -->
+<div style="width: 100%; height: 100%;"><textarea autocomplete="off" id="kw_console"></textarea></div>
+<!-- Brython 程式執行的結果, 都以 brython_div 作為切入位置 -->
+<div id="brython_div"></div>
+<div></div>
+<div></div></div></div>

@@ -456,7 +456,7 @@ run()
 <p></p>
 <p></p>
 <p><br/><br/></p>
-<h2>程式內容介紹</h2>
+<h2>程式內容註解</h2>
 <p>#41023120四設一甲呂昕叡</p>
 <p>import random #匯入亂數模組<br/># 以下為 Brython 新增<br/>from browser import document as doc<br/>from browser import html<br/>import browser.timer<br/>#分數系統<br/>def update_score(new_score):<br/> score_doc.innerHTML = "Score: " + str(new_score)<br/># 利用 html 建立一個 CANVAS 標註物件, 與變數 canvas 對應<br/>canvas = html.CANVAS(width = 400, height = 500, id="canvas")<br/>brython_div = doc["brython_div"]<br/>brython_div &lt;= canvas<br/>ctx = canvas.getContext("2d")<br/>#方塊顏色表單<br/>colors = [<br/> (0, 0, 0),<br/> (120, 37, 179),<br/> (100, 179, 179),<br/> (80, 34, 22),<br/> (80, 134, 22),<br/> (180, 34, 22),<br/> (180, 34, 122),<br/>]</p>
 <p>#建立方塊形狀<br/>class Figure:<br/> x = 0 #在格子裡的X軸<br/> y = 0 #在格子裡的y軸<br/>#方塊形狀表單<br/> figures = [<br/> [[1, 5, 9, 13], [4, 5, 6, 7]],<br/> [[4, 5, 9, 10], [2, 6, 5, 9]],<br/> [[6, 7, 9, 10], [1, 5, 6, 10]],<br/> [[1, 2, 5, 9], [0, 4, 5, 6], [1, 5, 9, 8], [4, 5, 6, 10]],<br/> [[1, 2, 6, 10], [5, 6, 7, 9], [2, 6, 10, 11], [3, 5, 6, 7]],<br/> [[1, 4, 5, 6], [1, 4, 5, 9], [4, 5, 6, 9], [1, 5, 6, 9]],<br/> [[1, 2, 5, 6]],<br/> ]<br/>#建立初始化函數 <br/> def __init__(self, x, y):<br/> self.x = x #建立變量<br/> self.y = y #建立變量<br/> self.type = random.randint(0, len(self.figures) - 1) #建立變量<br/> self.color = random.randint(1, len(colors) - 1) #在顏色表單裡隨意取一個數<br/> self.rotation = 0 #要旋轉一個方塊的時候默認值為零<br/>#建立基本功能<br/> def image(self):<br/> return self.figures[self.type][self.rotation]<br/>#旋轉功能<br/> def rotate(self):<br/> self.rotation = (self.rotation + 1) % len(self.figures[self.type])</p>
@@ -468,7 +468,8 @@ run()
 <p>def key_down(eve):<br/> key = eve.keyCode<br/> #if event.type == pygame.QUIT:<br/> # 32 is pause<br/> if key == 32:<br/> done = True<br/> # 82 is R鍵 to rotate<br/> if key == 82:<br/> game.rotate()<br/> # 40 is down key<br/> if key == 40:<br/> pressing_down = True<br/> # 37 is left key<br/> if key == 37:<br/> game.go_side(-1)<br/> # 39 is right key<br/> if key == 39:<br/> game.go_side(1)<br/> # 68 is d key to move block to bottom<br/> if key == 68:<br/> game.go_space()<br/> # 27 is escape<br/> # reset the game<br/> if key == 27:<br/> game.__init__(20, 10)</p>
 <p>def key_up(eve):<br/> key = eve.keyCode<br/> # 40 is down key<br/> if key == 40:<br/> pressing_down = False</p>
 <p>#如果還沒結束<br/>def do_game():<br/> global counter<br/> if game.figure is None: #如果遊戲值為空新增一些方塊<br/> game.new_figure()<br/> counter += 1 <br/> if counter &gt; 100000:<br/> counter = 0<br/> if counter % (fps // game.level // 2) == 0 or pressing_down: #隨著等級越來越高難度也越來越大<br/> if game.state == "start":<br/> game.go_down()<br/> #把格子畫在窗口裡面一行一行的畫<br/> for i in range(game.height):<br/> for j in range(game.width):<br/> ctx.fillStyle = WHITE<br/> #ctx.scale(game.zoom, game.zoom)<br/> ctx.fillRect(game.x + game.zoom * j, game.y + game.zoom * i, game.zoom, game.zoom)<br/> if game.field[i][j] &gt; 0:<br/> ctx.fillStyle = '#%02x%02x%02x' % colors[game.field[i][j]]<br/> ctx.fillRect(game.x + game.zoom * j + 1, game.y + game.zoom * i + 1, game.zoom - 2, game.zoom - 1)<br/> ctx.lineWidth = 1<br/> ctx.strokeStyle = GRAY<br/> ctx.beginPath()<br/> ctx.rect(game.x + game.zoom * j, game.y + game.zoom * i, game.zoom, game.zoom)<br/> ctx.stroke()<br/> if game.figure is not None: #如果格子裡面不為0的時候把它畫出來<br/> for i in range(4):<br/> for j in range(4):<br/> p = i * 4 + j<br/> if p in game.figure.image():<br/> ctx.fillStyle = '#%02x%02x%02x' % colors[game.figure.color]<br/> ctx.fillRect(game.x + game.zoom * (j + game.figure.x) + 1,<br/> game.y + game.zoom * (i + game.figure.y) + 1,<br/> game.zoom - 2, game.zoom - 2)<br/>score_doc = html.DIV("score") #字體<br/>score_doc.id = "score" #顯示分數<br/>brython_div &lt;= score_doc</p>
-<p>score = 0<br/>doc.addEventListener("keydown", key_down)<br/>doc.addEventListener("keyup", key_up)<br/>browser.timer.set_interval(do_game, fps)</p><h1>Tetris線上遊戲報告</h1>
+<p>score = 0<br/>doc.addEventListener("keydown", key_down)<br/>doc.addEventListener("keyup", key_up)<br/>browser.timer.set_interval(do_game, fps)</p>
+<h1>Tetris線上遊戲報告</h1>
 <!-- 導入 brython 程式庫 -->
 <p>
 <script src="/static/brython.js">
@@ -666,5 +667,6 @@ run()
 <p>第14週<br/>將程式存入 Gist, 從舊資料中刪除沒有在註冊名單中的內容<br/>開始做俄羅斯方塊</p>
 <p>第15週<br/>端午節放假<br/>俄羅斯方塊及加入計分系統</p>
 <p>第16週<br/>期末報告整理</p>
+<h1>期末任務1</h1>
 </div>
 </div>
