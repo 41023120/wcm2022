@@ -651,8 +651,97 @@ run()
 <div id="brython_div"></div>
 <div>
 <h1>Tetris AI</h1>
-</div>
-<div>
+<div></div>
+<!-- 導入 brython 程式庫 -->
+<p>
+<script src="/static/brython.js">
+</script>
+<script src="/static/brython_stdlib.js"></script>
+</p>
+<!-- 啟動 Brython -->
+<p>
+<script>
+window.onload=function(){
+brython({debug:1, pythonpath:['/static/','./../downloads/py/']});
+}
+</script>
+</p>
+<p><!-- 導入 FileSaver 與 filereader --></p>
+<p>
+<script src="/static/ace/FileSaver.min.js" type="text/javascript"></script>
+<script src="/static/ace/filereader.js" type="text/javascript"></script>
+</p>
+<p><!-- 導入 ace --></p>
+<p>
+<script src="/static/ace/ace.js" type="text/javascript"></script>
+<script src="/static/ace/ext-language_tools.js" type="text/javascript"></script>
+<script src="/static/ace/mode-python3.js" type="text/javascript"></script>
+<script src="/static/ace/snippets/python.js" type="text/javascript"></script>
+</p>
+<p><!-- 請注意, 這裡使用 Javascript 將 localStorage["py_src"] 中存在近端瀏覽器的程式碼, 由使用者決定存檔名稱--></p>
+<p>
+<script type="text/javascript">
+function doSave(storage_id, filename){
+    var blob = new Blob([localStorage[storage_id]], {type: "text/plain;charset=utf-8"});
+    filename = document.getElementById(filename).value
+    saveAs(blob, filename+".py");
+}
+</script>
+</p>
+<p><!-- 印出版次與關鍵字程式 --></p>
+<p>
+<script type="text/python3">
+from browser import document as doc
+import ace
+# 清除畫布
+def clear_bd(ev):
+    bd = doc["brython_div"]
+    bd.clear()
+# Brython 3.3.4 內建的 container 名稱為  'container' 且 turtle 輸出為 svg 必須使用 div 訂定 id
+Ace = ace.Editor(editor_id="kw_editor", console_id="kw_console", container_id="kw__container", storage_id="kw_py_src" )
+# 從 gist 取出程式碼後, 放入 editor 作為 default 程式
+def run():
+    # 利用 get 取下 src 變數值
+    try:
+        url = doc.query["src"]
+    except:
+        url = "https://gist.githubusercontent.com/41023120-1/fad29e2e6623a0c361cae7bc62e4d491/raw/987dc6ad2c20464c077f2ce92b8b316875ec857e/Tetris%2520ai"
+    prog = open(url).read()
+
+    # 將程式載入編輯區
+    Ace.editor.setValue(prog)
+    Ace.editor.scrollToRow(0)
+    Ace.editor.gotoLine(0)
+    # 直接執行程式
+    #ns = {'__name__':'__main__'}
+    #exec(prog, ns)
+    # 按下 run 按鈕
+    Ace.run()
+
+# 執行程式, 顯示輸出結果與清除輸出結果及對應按鈕綁定
+doc['kw_run'].bind('click', Ace.run)
+doc['kw_show_console'].bind('click', Ace.show_console)
+doc['kw_clear_console'].bind('click', Ace.clear_console)
+doc['clear_bd'].bind('click', clear_bd)
+# 呼叫函式執行
+run()
+</script>
+</p>
+<p><!-- 用來顯示程式碼的 editor 區域 --></p>
+<div id="kw_editor" style="width: 600px; height: 300px;"></div>
+<p><!-- 以下的表單與按鈕與前面的 Javascript doSave 函式以及 FileSaver.min.js 互相配合 --></p>
+<!-- 存擋表單開始 --><form><label>Filename: <input id="kw_filename" placeholder="input file name" type="text"/>.py</label> <input onclick="doSave('kw_py_src', 'kw_filename');" type="submit" value="Save"/></form><!-- 存擋表單結束 -->
+<p></p>
+<!-- 執行與清除按鈕開始 -->
+<p><button id="kw_run">Run</button> <button id="kw_show_console">Output</button> <button id="kw_clear_console">清除輸出區</button><button id="clear_bd">清除繪圖區</button><button onclick="window.location.reload()">Reload</button></p>
+<!-- 執行與清除按鈕結束 -->
+<p></p>
+<!-- 程式執行 ouput 區 -->
+<div style="width: 100%; height: 100%;"><textarea autocomplete="off" id="kw_console"></textarea></div>
+<!-- Brython 程式執行的結果, 都以 brython_div 作為切入位置 -->
+<div id="brython_div"></div>
+<div></div>
+<div></div>
 <h1>Final</h1>
 <p>第1週<br/>創建倉儲<br/>說明如何利用 bat 執行設定 IPv6 網路連線</p>
 <p>第2週<br/>解釋python程序是如何執行的</p>
@@ -724,7 +813,7 @@ def run():
     try:
         url = doc.query["src"]
     except:
-        url = "https://gist.githubusercontent.com/41023120-1/ac501f070a80583e540b19cce79d34da/raw/2e7f45307b0871678f738e932c29e61f9d90019c/Tetris%2520%25E5%25BE%2580%25E4%25B8%258A%25E9%2582%258A%25E7%2595%258C%25E7%25A2%25B0%25E5%2588%25B0%25E4%25B8%258D%25E6%259C%2583%25E5%2581%259C"
+        url = "https://gist.githubusercontent.com/41023120-1/bcc3b7737a2db5b661a1520283466dc9/raw/0d6dc09ccc7cff72bb49fcaad3d19e087034c9a4/Tetris%2520%25E5%258F%2583%25E8%2580%2583%25E5%2590%258C%25E5%25AD%25B8%25E7%259A%2584"
     prog = open(url).read()
 
     # 將程式載入編輯區
@@ -759,7 +848,94 @@ run()
 <div style="width: 100%; height: 100%;"><textarea autocomplete="off" id="kw_console"></textarea></div>
 <!-- Brython 程式執行的結果, 都以 brython_div 作為切入位置 -->
 <div id="brython_div"></div>
+<div>心得:在做把俄羅斯方塊改為往上時一開始想改參數讓他往上跑,改完參數是往上跑了沒錯但是碰到邊界卻不會停,改了幾次後會停了,但是程式有時候會不知道甚麼原因就不動了,後來有同學做完了我去參考他的發現他用兩行程式就解決讓方塊方向相反,所以我決定引用他的程式。</div><h1>期末任務2</h1>
 <div></div>
-<div></div>
-</div>
-</div>
+<!-- 導入 brython 程式庫 -->
+<p>
+<script src="/static/brython.js">
+</script>
+<script src="/static/brython_stdlib.js"></script>
+</p>
+<!-- 啟動 Brython -->
+<p>
+<script>
+window.onload=function(){
+brython({debug:1, pythonpath:['/static/','./../downloads/py/']});
+}
+</script>
+</p>
+<p><!-- 導入 FileSaver 與 filereader --></p>
+<p>
+<script src="/static/ace/FileSaver.min.js" type="text/javascript"></script>
+<script src="/static/ace/filereader.js" type="text/javascript"></script>
+</p>
+<p><!-- 導入 ace --></p>
+<p>
+<script src="/static/ace/ace.js" type="text/javascript"></script>
+<script src="/static/ace/ext-language_tools.js" type="text/javascript"></script>
+<script src="/static/ace/mode-python3.js" type="text/javascript"></script>
+<script src="/static/ace/snippets/python.js" type="text/javascript"></script>
+</p>
+<p><!-- 請注意, 這裡使用 Javascript 將 localStorage["py_src"] 中存在近端瀏覽器的程式碼, 由使用者決定存檔名稱--></p>
+<p>
+<script type="text/javascript">
+function doSave(storage_id, filename){
+    var blob = new Blob([localStorage[storage_id]], {type: "text/plain;charset=utf-8"});
+    filename = document.getElementById(filename).value
+    saveAs(blob, filename+".py");
+}
+</script>
+</p>
+<p><!-- 印出版次與關鍵字程式 --></p>
+<p>
+<script type="text/python3">
+from browser import document as doc
+import ace
+# 清除畫布
+def clear_bd(ev):
+    bd = doc["brython_div"]
+    bd.clear()
+# Brython 3.3.4 內建的 container 名稱為  'container' 且 turtle 輸出為 svg 必須使用 div 訂定 id
+Ace = ace.Editor(editor_id="kw_editor", console_id="kw_console", container_id="kw__container", storage_id="kw_py_src" )
+# 從 gist 取出程式碼後, 放入 editor 作為 default 程式
+def run():
+    # 利用 get 取下 src 變數值
+    try:
+        url = doc.query["src"]
+    except:
+        url = "https://gist.githubusercontent.com/41023120-1/49340d0199fed9efaeacdbe37a1b83f2/raw/0b10f8a522da45ca51b3dcb71983b8bce45f17e1/Tetris%2520AI%2520%25E5%258F%2583%25E8%2580%2583%25E5%2590%258C%25E5%25AD%25B8%25E5%2592%258C%25E5%25A5%25BD%25E5%25B8%25AB%25E7%259A%2584"
+    prog = open(url).read()
+
+    # 將程式載入編輯區
+    Ace.editor.setValue(prog)
+    Ace.editor.scrollToRow(0)
+    Ace.editor.gotoLine(0)
+    # 直接執行程式
+    #ns = {'__name__':'__main__'}
+    #exec(prog, ns)
+    # 按下 run 按鈕
+    Ace.run()
+
+# 執行程式, 顯示輸出結果與清除輸出結果及對應按鈕綁定
+doc['kw_run'].bind('click', Ace.run)
+doc['kw_show_console'].bind('click', Ace.show_console)
+doc['kw_clear_console'].bind('click', Ace.clear_console)
+doc['clear_bd'].bind('click', clear_bd)
+# 呼叫函式執行
+run()
+</script>
+</p>
+<p><!-- 用來顯示程式碼的 editor 區域 --></p>
+<div id="kw_editor" style="width: 600px; height: 300px;"></div>
+<p><!-- 以下的表單與按鈕與前面的 Javascript doSave 函式以及 FileSaver.min.js 互相配合 --></p>
+<!-- 存擋表單開始 --><form><label>Filename: <input id="kw_filename" placeholder="input file name" type="text"/>.py</label> <input onclick="doSave('kw_py_src', 'kw_filename');" type="submit" value="Save"/></form><!-- 存擋表單結束 -->
+<p></p>
+<!-- 執行與清除按鈕開始 -->
+<p><button id="kw_run">Run</button> <button id="kw_show_console">Output</button> <button id="kw_clear_console">清除輸出區</button><button id="clear_bd">清除繪圖區</button><button onclick="window.location.reload()">Reload</button></p>
+<!-- 執行與清除按鈕結束 -->
+<p></p>
+<!-- 程式執行 ouput 區 -->
+<div style="width: 100%; height: 100%;"><textarea autocomplete="off" id="kw_console"></textarea></div>
+<!-- Brython 程式執行的結果, 都以 brython_div 作為切入位置 -->
+<div id="brython_div"></div>
+<div></div></div></div>
