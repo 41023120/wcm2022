@@ -128,7 +128,7 @@ img.add_border {
                             <li><a href="./../blog/index.html">blog</a></li>
                         </ul>
                       </li>
-                     <li class='has-children'><a href='About.html'>About</a><ul class='dropdown'><li><a href='run.html'>run</a></li></ul><li><a href='w13.html'>w13</a><li><a href='midterm.html'>midterm</a><li class='has-children'><a href='w14.html'>w14</a><ul class='dropdown'><li><a href='1a分組名單.html'>1a分組名單</a></li></ul><li class='has-children'><a href='w17.html'>w17</a><ul class='dropdown'><li><a href='程式內容註解.html'>程式內容註解</a></li></ul><li><a href='Tetris線上遊戲報告.html'>Tetris線上遊戲報告</a><li><a href='Tetris 加入計分系統.html'>Tetris 加入計分系統</a><li><a href='Tetris AI.html'>Tetris AI</a><li><a href='Final.html'>Final</a><li><a href='期末任務1.html'>期末任務1</a></li>
+                     <li class='has-children'><a href='About.html'>About</a><ul class='dropdown'><li><a href='run.html'>run</a></li></ul><li><a href='w13.html'>w13</a><li><a href='midterm.html'>midterm</a><li class='has-children'><a href='w14.html'>w14</a><ul class='dropdown'><li><a href='1a分組名單.html'>1a分組名單</a></li></ul><li class='has-children'><a href='w17.html'>w17</a><ul class='dropdown'><li><a href='程式內容註解.html'>程式內容註解</a></li></ul><li><a href='Tetris線上遊戲報告.html'>Tetris線上遊戲報告</a><li><a href='Tetris 加入計分系統.html'>Tetris 加入計分系統</a><li><a href='Tetris AI.html'>Tetris AI</a><li><a href='Final.html'>Final</a><li><a href='期末任務1.html'>期末任務1</a><li><a href='期末任務2.html'>期末任務2</a></li>
                       </ul>
                 </nav>
               </div>
@@ -139,7 +139,7 @@ img.add_border {
           </div>
           
         </header>
-    <div id="tipue_search_content">Final << <a href='Final.html'>Previous</a> <br /><h1>期末任務1</h1>
+    <div id="tipue_search_content">Final << <a href='Final.html'>Previous</a> <a href='期末任務2.html'>Next</a> >> 期末任務2<br /><h1>期末任務1</h1>
 <!-- 導入 brython 程式庫 -->
 <p>
 <script src="./../cmsimde/static/brython.js">
@@ -193,7 +193,7 @@ def run():
     try:
         url = doc.query["src"]
     except:
-        url = "https://gist.githubusercontent.com/41023120-1/ac501f070a80583e540b19cce79d34da/raw/2e7f45307b0871678f738e932c29e61f9d90019c/Tetris%2520%25E5%25BE%2580%25E4%25B8%258A%25E9%2582%258A%25E7%2595%258C%25E7%25A2%25B0%25E5%2588%25B0%25E4%25B8%258D%25E6%259C%2583%25E5%2581%259C"
+        url = "https://gist.githubusercontent.com/41023120-1/bcc3b7737a2db5b661a1520283466dc9/raw/0d6dc09ccc7cff72bb49fcaad3d19e087034c9a4/Tetris%2520%25E5%258F%2583%25E8%2580%2583%25E5%2590%258C%25E5%25AD%25B8%25E7%259A%2584"
     prog = open(url).read()
 
     # 將程式載入編輯區
@@ -228,10 +228,8 @@ run()
 <div style="width: 100%; height: 100%;"><textarea autocomplete="off" id="kw_console"></textarea></div>
 <!-- Brython 程式執行的結果, 都以 brython_div 作為切入位置 -->
 <div id="brython_div"></div>
-<div></div>
-<div></div>
-</div>
-</div><br />Final << <a href='Final.html'>Previous</a> </div>
+<div>心得:在做把俄羅斯方塊改為往上時一開始想改參數讓他往上跑,改完參數是往上跑了沒錯但是碰到邊界卻不會停,改了幾次後會停了,但是程式有時候會不知道甚麼原因就不動了,後來有同學做完了我去參考他的發現他用兩行程式就解決讓方塊方向相反,所以我決定引用他的程式。</div>
+<p><iframe allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen="allowfullscreen" frameborder="0" height="630" src="./../downloads/程式.mp4" title="YouTube video player" width="1008"></iframe></p><br />Final << <a href='Final.html'>Previous</a> <a href='期末任務2.html'>Next</a> >> 期末任務2</div>
         
     <!-- footer -->
       <div class="container">
